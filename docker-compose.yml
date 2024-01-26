@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: artemenkov
+      POSTGRES_PASSWORD: roman
+      POSTGRES_DB: DocumentsDB
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+
+  document_service:
+    container_name:   document_service
+    build: ./document_service/
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+
+  save_service:
+    restart: on-failure
+    container_name: save_service
+    build: ./save_service/
+    ports:
+      - "8001:80"
+    depends_on:
+      - db
