@@ -79,7 +79,7 @@ jobs:
   build_and_push_save_service:
     name: Build and push save service to DockerHub
     runs-on: ubuntu-latest
-#    needs: [ test ]
+#    needs: [ test ] 
     steps:
       - uses: actions/checkout@v3
 
