@@ -35,7 +35,7 @@ async def fetch_docs(db: db_dependency):
     return result
 
 
-@app.get("/doc_by_id/{owner_id}")
+@app.get("/doc_by_id")
 async def fetch_docs(owner_id: UUID, db: db_dependency):
     result = db.query(database.DBDoc).filter(database.DBDoc.owner_id == owner_id).first()
     print(owner_id)
@@ -62,16 +62,13 @@ async def add_doc(doc: Document, db: db_dependency):
     return {"id": doc.id}
 
 
-# @app.delete('delete_doc')
-# async def delete_doc(doc_id: UUID):
-#     for doc in db:
-#         if doc.id == doc_id:
-#             db.remove(doc)
-#             return
-#     raise HTTPException(
-#         status_code=404,
-#         detail=f'Document with {doc_id} does not exist'
-#     )
+@app.delete("/delete_document")
+async def delete_doc(doc_id: int, db: db_dependency):
+    try:
+        doc_db = db.query(database.DBDoc).filter(database.DBDoc.id == doc_id).first()
+        db.delete(doc_db)
+    except Exception:
+        return "cant find document"
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('PORT', 80)))
