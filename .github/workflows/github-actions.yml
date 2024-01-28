@@ -8,38 +8,38 @@ on:
   workflow_dispatch:
 
 jobs:
-#  test:
-#    name: Run tests
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#
-#      - name: install dependencies
-#        run: |
-#          sudo apt update
-#          sudo apt install -y python3-pip
-#          pip install psycopg2-binary
-#          pip install pytest
-#
-#      - name: Prepare for tests (compose up)
-#        run: docker compose up -d --build
-#
-#
-#      - name: Run component test
-#        run: python tests/component.py
-#
-#
-#      - name: Run integration test
-#        run: python tests/integration.py
-#
-#
-#      - name: Clean up (compose down)
-#        run: docker compose down
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip
+          pip install psycopg2-binary
+          pip install pytest
+
+      - name: Prepare for tests (compose up)
+        run: docker compose up -d --build
+
+
+      - name: Run component test
+        run: python tests/component.py
+
+
+      - name: Run integration test
+        run: python tests/integration.py
+
+
+      - name: Clean up (compose down)
+        run: docker compose down
 
   build_and_push_document_service:
     name: Build and push document service to Yandex Cloud
     runs-on: ubuntu-latest
-#    needs: [ test ]
+    needs: [ test ]
     steps:
       - uses: actions/checkout@v3
 
@@ -57,7 +57,6 @@ jobs:
       - name: Push tag to Yandex Cloud
         run: |
           docker push cr.yandex/${{ secrets.YC_REGISTRY_ID }}/ms-document-services:latest
-
 
 
   deploy:
@@ -79,7 +78,7 @@ jobs:
   build_and_push_save_service:
     name: Build and push save service to DockerHub
     runs-on: ubuntu-latest
-#    needs: [ test ]
+    needs: [ test ]
     steps:
       - uses: actions/checkout@v3
 

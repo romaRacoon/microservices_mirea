@@ -2,7 +2,6 @@ import pytest
 import requests
 from uuid import UUID, uuid4
 from datetime import datetime
-import json
 
 document_url = 'https://localhost:8000'
 save_url = 'https://localhost:8001'
