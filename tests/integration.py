@@ -16,7 +16,7 @@ def check_connect():
         )
         conn.close()
         return True
-    except:
+    except Exception as e:
         return False
 
 
