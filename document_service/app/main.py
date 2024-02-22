@@ -30,13 +30,13 @@ async def doc_health():
 
 
 @app.get("/user_docs")
-async def fetch_docs(db: db_dependency):
+async def get_docs(db: db_dependency):
     result = db.query(database.DBDoc).offset(0).limit(100).all()
     return result
 
 
 @app.get("/doc_by_id")
-async def fetch_docs(owner_id: UUID, db: db_dependency):
+async def get_docs_by_id(owner_id: UUID, db: db_dependency):
     result = db.query(database.DBDoc).filter(database.DBDoc.owner_id == owner_id).first()
     print(owner_id)
     print(result)
@@ -59,14 +59,16 @@ async def add_doc(doc: Document, db: db_dependency):
     db.add(db_doc)
     db.commit()
     db.refresh(db_doc)
-    return {"id": doc.id}
+    return "Success"
 
 
 @app.delete("/delete_document")
-async def delete_doc(doc_id: int, db: db_dependency):
+async def delete_doc(doc_id: UUID, db: db_dependency):
     try:
         doc_db = db.query(database.DBDoc).filter(database.DBDoc.id == doc_id).first()
         db.delete(doc_db)
+        db.commit()
+        return "Success"
     except Exception:
         return "cant find document"
 
