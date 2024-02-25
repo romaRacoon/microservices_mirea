@@ -1,3 +1,4 @@
+
 from fastapi import FastAPI, HTTPException, status, Depends
 from typing import Annotated
 from uuid import UUID
@@ -71,6 +72,7 @@ async def delete_doc(doc_id: UUID, db: db_dependency):
         return "Success"
     except Exception:
         return "cant find document"
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('PORT', 80)))

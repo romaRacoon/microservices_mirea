@@ -5,11 +5,13 @@ from time import sleep
 import json
 import sys
 import os
+from pathlib import Path
 
-from opentelemetry.sdk.metrics import export
+BASE_DIR = Path(__file__).resolve().parent
+sys.path.append(str(BASE_DIR / 'document_service/app'))
 
-from app.main import doc_health
-
+from document_service.app import main as main_1
+from save_service.app import main as main_2
 
 def check_connect():
     try:
@@ -34,12 +36,11 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(check_connect(), True)
 
     def test_document_service_connection(self):
-        res = doc_health()
-        # r = requests.get("http://localhost:8000/health", verify=False)
-        self.assertEqual(res.status_code, 200)
+        r = main_1.doc_health()
+        self.assertEqual(r, "'message': 'service is active'")
 
     def test_save_service_connection(self):
-        # r = requests.get("http://localhost:8001/health", verify=False)
+        r = main_2.doc_health()
         self.assertEqual(r.status_code, 200)
 
 
