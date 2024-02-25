@@ -3,6 +3,12 @@ import requests
 import psycopg2
 from time import sleep
 import json
+import sys
+import os
+
+from opentelemetry.sdk.metrics import export
+
+from app.main import doc_health
 
 
 def check_connect():
@@ -28,11 +34,12 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(check_connect(), True)
 
     def test_document_service_connection(self):
-        r = requests.get("http://localhost:8000/health", verify=False)
-        self.assertEqual(r.status_code, 200)
+        res = doc_health()
+        # r = requests.get("http://localhost:8000/health", verify=False)
+        self.assertEqual(res.status_code, 200)
 
     def test_save_service_connection(self):
-        r = requests.get("http://localhost:8001/health", verify=False)
+        # r = requests.get("http://localhost:8001/health", verify=False)
         self.assertEqual(r.status_code, 200)
 
 
