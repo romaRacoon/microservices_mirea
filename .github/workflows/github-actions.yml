@@ -27,7 +27,7 @@ jobs:
         run: docker compose up -d --build
 
       - name: Run integration test
-        run: python tests/integration.py
+        run: python integration.py
 
       - name: Run component test
         run: python tests/component.py
